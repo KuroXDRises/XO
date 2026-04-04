@@ -3,15 +3,15 @@ from db import *
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 def get_rank(level):
-    if level <= 10:
+    if level <= 20:
         return "Beginner"
-    elif level <= 20:
-        return "Novice"
     elif level <= 30:
-        return "Intermediate"
-    elif level <= 40:
-        return "Advanced"
+        return "Novice"
     elif level <= 50:
+        return "Intermediate"
+    elif level <= 70:
+        return "Advanced"
+    elif level <= 90:
         return "Expert"
     else:
         return "Master"
