@@ -6,6 +6,13 @@ import os
 LOGS_GROUP = config.LOGS_GRP
 pic = "https://i.ibb.co/Gv794MpQ/8aba2109900b.jpg"
 
+def escape_html(text):
+    if not text:
+        return ""
+    return (text.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;"))
+
 @bot.message_handler(commands=["start"])
 async def start_command(message):
     user_id = message.from_user.id
@@ -29,27 +36,27 @@ async def start_command(message):
         save_user(user_id, data)
 
         log_text = (
-            "🆕 *NEW USER REGISTERED*\n\n"
-            "*User Info:*\n"
-            f"• *Name:* {message.from_user.first_name}\n"
-            f"• *Username:* @{message.from_user.username if message.from_user.username else 'None'}\n"
-            f"• *User ID:* `{user_id}`\n\n"
-            "*Game Stats Saved:*\n"
-            f"• Level: `{data['level']}`\n"
-            f"• EXP: `{data['exp']}/{data['max_exp']}`\n"
-            f"• Total Matches: `{data['total']}`\n"
-            f"• Wins: `{data['wins']}`\n"
-            f"• Loses: `{data['loses']}`\n\n"
+            "🆕 <b>NEW USER REGISTERED</b>\n\n"
+            "<b>User Info:</b>\n"
+            f"• <b>Name:</b> {escape_html(message.from_user.first_name)}\n"
+            f"• <b>Username:</b> @{escape_html(message.from_user.username) if message.from_user.username else 'None'}\n"
+            f"• <b>User ID:</b> <code>{user_id}</code>\n\n"
+            "<b>Game Stats Saved:</b>\n"
+            f"• Level: <code>{data['level']}</code>\n"
+            f"• EXP: <code>{data['exp']}/{data['max_exp']}</code>\n"
+            f"• Total Matches: <code>{data['total']}</code>\n"
+            f"• Wins: <code>{data['wins']}</code>\n"
+            f"• Loses: <code>{data['loses']}</code>\n\n"
             f"🕒 Registered At: {message.date}"
         )
 
-        await bot.send_message(LOGS_GROUP, log_text, parse_mode="Markdown")
+        await bot.send_message(LOGS_GROUP, log_text, parse_mode="HTML")
 
         welcome_text = (
-            f"🎮 Welcome [{message.from_user.first_name}](tg://user?id={user_id}) to the Ultimate X-O Arena!\n\n"
+            f"🎮 Welcome <a href='tg://user?id={user_id}'>{escape_html(message.from_user.first_name)}</a> to the Ultimate X-O Arena!\n\n"
             "Choose your move wisely…\n"
             "Every grid matters in this 5x5 strategic battle.\n\n"
-            "✨ *Features:*\n"
+            "✨ <b>Features:</b>\n"
             "• Play 5x5 Advanced XO\n"
             "• Smart AI Opponent / Friend Match\n"
             "• Clean Grid Interface\n"
@@ -63,11 +70,11 @@ async def start_command(message):
             message.chat.id,
             photo=pic,
             caption=welcome_text,
-            parse_mode="Markdown"
+            parse_mode="HTML"
         )
 
     text = (
-        "👋 *Welcome back, Player!*\n\n"
+        "👋 <b>Welcome back, Player!</b>\n\n"
         "You're already registered and ready to play.\n\n"
         "🎮 Continue your game anytime\n"
         "📊 Your stats are safely saved\n"
@@ -78,14 +85,13 @@ async def start_command(message):
         message.chat.id,
         photo=pic,
         caption=text,
-        parse_mode="Markdown"
+        parse_mode="HTML"
     )
 
 
 @bot.message_handler(commands=["dumpdb"])
 async def send_database(message):
     file_path = "users.json"
-
     if not os.path.exists(file_path):
         return await bot.send_message(message.chat.id, "❌ Database file not found!")
 
@@ -94,4 +100,4 @@ async def send_database(message):
             message.chat.id,
             f,
             caption="📦 Your database file (users.json)"
-            )
+        )
