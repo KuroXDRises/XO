@@ -3,7 +3,7 @@ from Config import config
 
 bot = atb(
     config.TOKEN,
-    parse_mode="Markdown"
+    parse_mode="HTML"
 )
 
 Dev = [6239769036]
