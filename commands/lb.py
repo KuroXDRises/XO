@@ -9,7 +9,7 @@ def get_lb_users():
                   "uid": uid,
                   "name": data['name'],
                   "level": data['level'],
-                  "exp": data['exp']}
+                  "exp": data['exp']
         )
     users = sorted(
         users,
