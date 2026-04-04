@@ -10,7 +10,7 @@ def load_db():
         return json.load(x)
 def save_db(db):
     with open(path, "w") as x:
-        json.dump(db, f, indent=4)
+        json.dump(db, x, indent=4)
 def update_db(user_id, key, value):
     db = load_db()
     user_id = str(user_id)
@@ -18,3 +18,16 @@ def update_db(user_id, key, value):
         db[user_id] = {}
     db[user_id][key] = value
     save_db(db)
+def get_user(user_id):
+    db = load_db()
+    user_id = str(user_id)
+    if user_id not in db:
+        return None
+    user_data = db[user_id]
+    return user_data
+def delete_user(user_id):
+    db = load_db()
+    user_id = str(user_id)
+    if user_id not in db:
+        return None
+    del db[user_id]
