@@ -47,8 +47,7 @@ async def start_command(message):
 
         await bot.send_message(
             LOGS_GROUP,
-            log_text,
-            reply_to_message_id=message.message_id
+            log_text
         )
 
         welcome_text = (
