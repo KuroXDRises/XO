@@ -12,6 +12,11 @@ pic = "https://i.ibb.co/Gv794MpQ/8aba2109900b.jpg"
 async def start_command(message):
     user_id = message.from_user.id
     user = get_user(user_id)
+    if message.chat.type != "private":
+        return await bot.reply_to(
+            message,
+            "⚠️ This command only works in private chats"
+        )
     
     if (user==None):
         text = f"""
@@ -32,6 +37,8 @@ Just choose a grid and let the battle start!
 
 Good luck, Player — the board is yours. 🧠🔥
 """
+
+        
         
         await bot.send_message(
             message.chat.id,
@@ -39,9 +46,10 @@ Good luck, Player — the board is yours. 🧠🔥
             caption=text,
             reply_to_message_id=message.message_id
         )
+        return
         
-    else:
-        text = """
+    
+    text = """
         👋 Welcome back, Player!
 
 You're already registered and ready to play.
@@ -50,13 +58,26 @@ You're already registered and ready to play.
 📊 Your stats are safely saved  
 ⚡ Tap any button to continue your journey!
 """
-        await bot.send_message(
+    await bot.send_message(
+        message.chat.id,
+        pic,
+        caption=text,
+        reply_to_message_id=message.message_id
+    )
+
+@bot.message_handler(commands=["dumpdb"])
+async def send_database(message):
+    file_path = "users.json"
+
+    if not os.path.exists(file_path):
+        await bot.send_message(message.chat.id, "❌ Database file not found!")
+        return
+
+    with open(file_path, "rb") as f:
+        await bot.send_document(
             message.chat.id,
-            pic,
-            caption=text,
-            reply_to_message_id=message.message_id
+            f,
+            caption="📦 Your database file (users.json)"
         )
-
-
 
         
