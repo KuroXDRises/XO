@@ -7,15 +7,12 @@ import os
 LOGS_GROUP = config.LOGS_GRP
 pic = "https://i.ibb.co/Gv794MpQ/8aba2109900b.jpg"
 
-
 @bot.message_handler(commands=["start"])
 async def start_command(message):
     user_id = message.from_user.id
     user = get_user(user_id)
-
     if message.chat.type != "private":
         return await bot.reply_to(message, "⚠️ This command only works in private chats")
-
     if user is None:
         data = {
             "name": message.from_user.first_name,
@@ -27,9 +24,7 @@ async def start_command(message):
             "wins": 0,
             "loses": 0
         }
-
         save_user(user_id, data)
-
         log_text = (
             "🆕 *NEW USER REGISTERED*\n\n"
             "*User Info:*\n"
@@ -44,12 +39,7 @@ async def start_command(message):
             f"• Loses: `{data['loses']}`\n\n"
             f"🕒 Registered At: {message.date}"
         )
-
-        await bot.send_message(
-            LOGS_GROUP,
-            log_text
-        )
-
+        await bot.send_message(LOGS_GROUP, log_text)
         welcome_text = (
             f"🎮 Welcome [{message.from_user.first_name}](tg://user?id={user_id}) to the Ultimate X-O Arena!\n\n"
             "Choose your move wisely…\n"
@@ -63,38 +53,20 @@ async def start_command(message):
             "🚀 Ready to begin your match?\n"
             "Good luck, Player — the board is yours. 🧠🔥"
         )
-
-        return await bot.send_photo(
-            message.chat.id,
-            photo=pic,
-            caption=welcome_text
-        )
-
+        return await bot.send_photo(message.chat.id, photo=pic, caption=welcome_text)
     text = (
-        "👋 *Welcome back, Player\!*\n\n"
+        "👋 *Welcome back, Player\\!*\n\n"
         "You're already registered and ready to play.\n\n"
         "🎮 Continue your game anytime\n"
         "📊 Your stats are safely saved\n"
-        "⚡ Tap any button to continue your journey\!"
+        "⚡ Tap any button to continue your journey\\!"
     )
-
-    await bot.send_photo(
-        message.chat.id,
-        photo=pic,
-        caption=text
-    )
-
+    await bot.send_photo(message.chat.id, photo=pic, caption=text)
 
 @bot.message_handler(commands=["dumpdb"])
 async def send_database(message):
     file_path = "users.json"
-
     if not os.path.exists(file_path):
         return await bot.send_message(message.chat.id, "❌ Database file not found!")
-
     with open(file_path, "rb") as f:
-        await bot.send_document(
-            message.chat.id,
-            f,
-            caption="📦 Your database file (users.json)"
-        )
+        await bot.send_document(message.chat.id, f, caption="📦 Your database file (users.json)")
