@@ -71,11 +71,11 @@ async def start_command(message):
         )
 
     text = (
-        "👋 *Welcome back, Player!*\n\n"
+        "👋 *Welcome back, Player\!*\n\n"
         "You're already registered and ready to play.\n\n"
         "🎮 Continue your game anytime\n"
         "📊 Your stats are safely saved\n"
-        "⚡ Tap any button to continue your journey!"
+        "⚡ Tap any button to continue your journey\!"
     )
 
     await bot.send_photo(
