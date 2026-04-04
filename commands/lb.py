@@ -25,7 +25,8 @@ async def leaderboard_handler(message):
     text = f"[𝗫𝗢] 𝗧𝗢𝗣 𝗣𝗟𝗔𝗬𝗘𝗥𝗦 [𝗫𝗢]\n\n"
     rank = 1
     for top in top10:
-        text+=f"<i>{rank}• {top['name']} | {top['level']} | {top['exp']}</i>\n"
+        text+=f"<b><i>{rank}• {top['name']} | {top['level']} | {top['exp']}</i></b>\n"
+        rank+=1
     await bot.reply_to(
         message,
         text
