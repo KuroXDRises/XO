@@ -5,3 +5,5 @@ bot = atb(
     config.TOKEN,
     parse_mode="Markdown"
 )
+
+Dev = [6239769036]
