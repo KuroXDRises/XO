@@ -18,6 +18,7 @@ def get_lb_users():
         x['exp']),
         reverse=True
     )
+    return users
 @bot.message_handler(commands=["leaderboard"])
 async def leaderboard_handler(message):
     top10 = get_lb_users()[:10]
