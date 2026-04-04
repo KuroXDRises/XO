@@ -5,12 +5,12 @@ def get_lb_users():
     db = load_db()
     users = []
     for uid, data in db.items():
-        users.append(
+        users.append({
                   "uid": uid,
                   "name": data['name'],
                   "level": data['level'],
                   "exp": data['exp']
-        )
+        })
     users = sorted(
         users,
         key=lambda x:
@@ -20,7 +20,7 @@ def get_lb_users():
     )
 @bot.message_handler(commands=["leaderboard"])
 async def leaderboard_handler(message):
-    top10 = get_kb_users()[:10]
+    top10 = get_lb_users()[:10]
     text = f"[𝗫𝗢] 𝗧𝗢𝗣 𝗣𝗟𝗔𝗬𝗘𝗥𝗦 [𝗫𝗢]\n\n"
     rank = 1
     for top in top10:
