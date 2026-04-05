@@ -52,7 +52,7 @@ async def play_xo(message):
         return
     msg = await bot.send_message(
         message.chat.id,
-        f"<b>Player:</b> {message.from_user.first_name} ❌\n<b>AI:</b> ⭕",
+        f"[𝗫𝗢] 🤖 𝗔𝗜 𝗠𝗢𝗗𝗘 🤖 [𝗫𝗢]\n<b>𝘗𝘈𝘓𝘠𝘌𝘙:</b> {message.from_user.first_name} ❌\n<b>𝘈𝘐:</b> ⭕",
         reply_markup=make_5by5_grid(),
         parse_mode="HTML"
     )
