@@ -35,7 +35,7 @@ async def play_xo(message):
 
     msg = await bot.send_message(message.chat.id, text, reply_markup=buttons, parse_mode="HTML")
     grid_data[message.from_user.id] = {"msg_id": msg.message_id, "grid": ["⚪"] * 25}
-@bot.callback_query_handler(func=lambda call: call.data.starts_with("xo_"))
+@bot.callback_query_handler(func=lambda call: call.data.startswith("xo_"))
 async def buttons_handler(call):
     user = callback.from_user.id
     if user not in grid_data:
