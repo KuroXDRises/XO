@@ -44,7 +44,7 @@ async def buttons_handler(call):
     if grid_data[user]["grid"][slot] != "⚪":
         return await bot.answer_callback_query("Already selected")
     grid_data[user]["grid"][slot] = "❌"
-    kb = InlineKeyboardMarkup(row_witdh=5)
+    kb = InlineKeyboardMarkup(row_width=5)
     row = []
     for i in range(25):
         row.append(InlineKeyboardButton(grid_data[user]["grid"][i], callback_data=f"xo_{i+1}"))
