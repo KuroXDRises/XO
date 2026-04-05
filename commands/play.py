@@ -52,7 +52,7 @@ async def buttons_handler(call):
             kb.row(*row)
             row = []
     await bot.edit_message_reply_markup(
-        callback.message.chat.id,
+        call.message.chat.id,
         grid_data[user]["msg_id"],
         reply_markup=kb
     )
