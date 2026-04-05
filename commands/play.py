@@ -55,15 +55,22 @@ def get_ai_move(board):
 def check_draw(b):
     return EMPTY not in b
 
-
 @bot.message_handler(commands=["play"])
 async def play_xo(message):
     if message.chat.type != "private":
         await bot.reply_to(message, "Play only works in private")
         return
+    txt = f"""
+<code>┌───[ 𝗫𝗢 𝗚𝗔𝗠𝗘 𝗦𝗧𝗔𝗥𝗧𝗘𝗗 ]───┐</code>
+<code>│                               │
+│ Player : {message.from_user.first_name} ❌           │
+│ AI     : 🤖 Bot ⭕              │
+│                                │</code>
+<code>└───────────────────┘</code>
+"""
     msg = await bot.send_message(
         message.chat.id,
-        f"[𝗫𝗢] 🤖 𝗔𝗜 𝗠𝗢𝗗𝗘 🤖 [𝗫𝗢]\n<b>𝘗𝘈𝘓𝘠𝘌𝘙:</b> {message.from_user.first_name} ❌\n<b>𝘈𝘐:</b> ⭕",
+        txt,
         reply_markup=make_5by5_grid(),
         parse_mode="HTML"
     )
