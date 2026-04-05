@@ -33,4 +33,28 @@ async def play_xo(message):
 <b>[xᴏ] 5×5 ɢʀɪᴅ ᴍᴀᴛᴄʜ sᴛᴀʀᴛᴇᴅ!</b>
 """
 
-    await bot.send_message(message.chat.id, text, reply_markup=buttons, parse_mode="HTML")
+    msg = await bot.send_message(message.chat.id, text, reply_markup=buttons, parse_mode="HTML")
+    grid_data[message.from_user.id] = {"msg_id": msg.message_id, "grid": ["⚪"] * 25}
+@bot.callback_query_handler(func=lambda call: call.data.starts_with("xo_"))
+async def buttons_handler(call):
+    user = callback.from_user.id
+    if user not in grid_data:
+        return await callback.answer("Start the game first by the command /play")
+    slot = int(callback.data.split("_")[1]) -1
+    if grid_data[user]["grid"][slot] != "⚪":
+        return await callback.answer("Already selected")
+    grid_data[user]["grid"][slot] = "❌"
+    kb = InlineKeyboardMarkup(row_witdh=5)
+    row = []
+    for i in range(25):
+        row.append(InlineKeyboardButton(grid_data[user]["grid"][i], callback_data=f"xo_{i+1}"))
+        if len(row)==5:
+            kb.row(*row)
+            row = []
+    await bot.edit_message_reply_markup(
+        callback.message.chat.id,
+        grid_data[user]["msg_id"],
+        reply_markup=kb
+    )
+
+
