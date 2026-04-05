@@ -37,12 +37,12 @@ async def play_xo(message):
     grid_data[message.from_user.id] = {"msg_id": msg.message_id, "grid": ["⚪"] * 25}
 @bot.callback_query_handler(func=lambda call: call.data.startswith("xo_"))
 async def buttons_handler(call):
-    user = callback.from_user.id
+    user = call.from_user.id
     if user not in grid_data:
-        return await callback.answer("Start the game first by the command /play")
-    slot = int(callback.data.split("_")[1]) -1
+        return await call.answer("Start the game first by the command /play")
+    slot = int(call.data.split("_")[1]) -1
     if grid_data[user]["grid"][slot] != "⚪":
-        return await callback.answer("Already selected")
+        return await call.answer("Already selected")
     grid_data[user]["grid"][slot] = "❌"
     kb = InlineKeyboardMarkup(row_witdh=5)
     row = []
