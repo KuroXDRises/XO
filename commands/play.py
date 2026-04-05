@@ -63,10 +63,10 @@ async def play_xo(message):
     txt = f"""
 <code>┌───[ 𝗫𝗢 𝗚𝗔𝗠𝗘 𝗦𝗧𝗔𝗥𝗧𝗘𝗗 ]───┐</code>
 <code>│                               │
-│ Player : {message.from_user.first_name} ❌           │
-│ AI     : 🤖 Bot ⭕              │
+│ Player : {message.from_user.first_name} ❌       │
+│ AI     : 🤖 Bot ⭕        │
 │                                │</code>
-<code>└───────────────────┘</code>
+<code>└───────────────────────┘</code>
 """
     msg = await bot.send_message(
         message.chat.id,
