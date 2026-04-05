@@ -28,22 +28,33 @@ def check_win(b, s):
     if all(b[4+i*4] == s for i in range(5)): return True
     return False
 
-def check_draw(b):
-    return EMPTY not in b
-
 def get_ai_move(board):
+    import random
+
+    if random.random() < 0.40:
+        empty = [i for i in range(25) if board[i] == EMPTY]
+        return random.choice(empty) if empty else None
+
     for i in range(25):
         if board[i] == EMPTY:
             c = board.copy()
             c[i] = AI
-            if check_win(c, AI): return i
+            if check_win(c, AI):
+                return i
+
     for i in range(25):
         if board[i] == EMPTY:
             c = board.copy()
             c[i] = PLAYER
-            if check_win(c, PLAYER): return i
-    e = [i for i in range(25) if board[i] == EMPTY]
-    return random.choice(e) if e else None
+            if check_win(c, PLAYER):
+                return i
+
+    empty = [i for i in range(25) if board[i] == EMPTY]
+    return random.choice(empty) if empty else None
+
+def check_draw(b):
+    return EMPTY not in b
+
 
 @bot.message_handler(commands=["play"])
 async def play_xo(message):
