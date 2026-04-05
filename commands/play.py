@@ -37,24 +37,36 @@ async def play_xo(message):
     grid_data[message.from_user.id] = {"msg_id": msg.message_id, "grid": ["⚪"] * 25}
 @bot.callback_query_handler(func=lambda call: call.data.startswith("xo_"))
 async def buttons_handler(call):
+
+    await bot.answer_callback_query(call.id)
+
     user = call.from_user.id
     if user not in grid_data:
-        return await bot.answer_callback_query("Start the game first by the command /play")
-    slot = int(call.data.split("_")[1]) -1
+        return await bot.answer_callback_query(call.id, "Start the game first by /play")
+
+    slot = int(call.data.split("_")[1]) - 1
+
     if grid_data[user]["grid"][slot] != "⚪":
-        return await bot.answer_callback_query("Already selected")
+        return await bot.answer_callback_query(call.id, "Already selected")
+
     grid_data[user]["grid"][slot] = "❌"
+
     kb = InlineKeyboardMarkup(row_width=5)
     row = []
+
     for i in range(25):
-        row.append(InlineKeyboardButton(grid_data[user]["grid"][i], callback_data=f"xo_{i+1}"))
-        if len(row)==5:
+        row.append(
+            InlineKeyboardButton(
+                grid_data[user]["grid"][i],
+                callback_data=f"xo_{i+1}"
+            )
+        )
+        if len(row) == 5:
             kb.row(*row)
             row = []
+
     await bot.edit_message_reply_markup(
         call.message.chat.id,
         grid_data[user]["msg_id"],
         reply_markup=kb
     )
-
-
