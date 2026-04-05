@@ -39,10 +39,10 @@ async def play_xo(message):
 async def buttons_handler(call):
     user = call.from_user.id
     if user not in grid_data:
-        return await call.answer("Start the game first by the command /play")
+        return await bot.answer_callback_query("Start the game first by the command /play")
     slot = int(call.data.split("_")[1]) -1
     if grid_data[user]["grid"][slot] != "⚪":
-        return await call.answer("Already selected")
+        return await bot.answer_callback_query("Already selected")
     grid_data[user]["grid"][slot] = "❌"
     kb = InlineKeyboardMarkup(row_witdh=5)
     row = []
