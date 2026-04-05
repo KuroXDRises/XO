@@ -1,6 +1,7 @@
 from bot import bot
 from db import *
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+import random
 
 grid_data = {}
 
@@ -15,6 +16,12 @@ def make_5by5_grid():
             kb.row(*row)
             row = []
     return kb
+
+def get_random_ai_move(grid):
+    empty_slots = [i for i, v in enumerate(grid) if v == "⚪"]
+    if not empty_slots:
+        return None
+    return random.choice(empty_slots)
 
 @bot.message_handler(commands=["play"])
 async def play_xo(message):
@@ -35,6 +42,7 @@ async def play_xo(message):
 
     msg = await bot.send_message(message.chat.id, text, reply_markup=buttons, parse_mode="HTML")
     grid_data[message.from_user.id] = {"msg_id": msg.message_id, "grid": ["⚪"] * 25}
+
 @bot.callback_query_handler(func=lambda call: call.data.startswith("xo_"))
 async def buttons_handler(call):
 
@@ -50,6 +58,11 @@ async def buttons_handler(call):
         return await bot.answer_callback_query(call.id, "Already selected")
 
     grid_data[user]["grid"][slot] = "❌"
+    
+    ai_slot = get_ranom_ai_move(grid_data[user]["grid"])
+    
+    if ai_slot is not None:
+        grid[user]["grid"][ai_slot] = "⭕"
 
     kb = InlineKeyboardMarkup(row_width=5)
     row = []
