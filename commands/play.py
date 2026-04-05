@@ -59,7 +59,7 @@ async def buttons_handler(call):
 
     grid_data[user]["grid"][slot] = "❌"
     
-    ai_slot = get_ranom_ai_move(grid_data[user]["grid"])
+    ai_slot = get_random_ai_move(grid_data[user]["grid"])
     
     if ai_slot is not None:
         grid[user]["grid"][ai_slot] = "⭕"
