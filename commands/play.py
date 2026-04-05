@@ -62,7 +62,7 @@ async def buttons_handler(call):
     ai_slot = get_random_ai_move(grid_data[user]["grid"])
     
     if ai_slot is not None:
-        grid[user]["grid"][ai_slot] = "⭕"
+        grid_data[user]["grid"][ai_slot] = "⭕"
 
     kb = InlineKeyboardMarkup(row_width=5)
     row = []
